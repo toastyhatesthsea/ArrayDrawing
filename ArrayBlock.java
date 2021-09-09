@@ -20,9 +20,7 @@ public class ArrayBlock extends PApplet
     float yLocationBuffer;
     boolean sorted;
     boolean drawn;
-
-    Block[] blockArray;
-
+    BlockManager aBlockManager;
 
     public void settings()
     {
@@ -32,20 +30,18 @@ public class ArrayBlock extends PApplet
 
     public void setup()
     {
-        blockArray = new Block[200];
         sorted = false;
         drawn = false;
-        xLocation = 10;
-        yLocation = 10;
         yLocationBuffer = 50;
         currentArrayIndex = 0;
-        frameRate(30);
+        frameRate(60);
         widthOfWindow = 900;
         sizeOfArray = 200;
         widthOfRect = (float) widthOfWindow / (sizeOfArray);
         background(126, 239, 247);
-        anArray = new int[sizeOfArray];
-        createArray();
+
+        aBlockManager = new BlockManager(sizeOfArray, widthOfWindow, heightOfWindow);
+
     }
 
 
@@ -56,48 +52,38 @@ public class ArrayBlock extends PApplet
 
     public void createArray()
     {
-        Random aRan = new Random();
-        float anXLocation = 0;
-        float anYLocation = 0;
 
-        for (int i = 0; i < 200; i++)
-        {
-            float height = aRan.nextInt(200);
-            anYLocation = this.heightOfWindow - height;
-            blockArray[i] = new Block(anXLocation, anYLocation, this.widthOfRect, height, Color.GRAY);
-            anXLocation = anXLocation + this.widthOfRect;
-        }
     }
 
-    public void drawArray()
+    public boolean drawArray()
     {
-        int element = this.anArray[currentArrayIndex];
-
-        fill(element);
-        yLocation = this.heightOfWindow - element;
-        rect(xLocation, yLocation - yLocationBuffer, this.widthOfRect, element);
-        xLocation += widthOfRect;
-        currentArrayIndex++;
-
-        if (currentArrayIndex == 200)
-        {
-            drawn = true;
-            currentArrayIndex = 0;
-        }
+        return drawn;
     }
 
     public void draw()
     {
-        /*if (!drawn)
+        if (aBlockManager.currentIndex < sizeOfArray && !this.drawArray())
         {
-            drawArray();
-        } else if */if(!sorted)
+            aBlockManager.drawCurrentBlock(this);
+        }
+        else
         {
-            sortArray();
+            drawn = true;
+            aBlockManager.reset();
         }
 
+        if (drawn && !sorted)
+        {
+
+        }
+
+
+        aBlockManager.update();
     }
 
+
+
+    //TODO Fix sortArray() to work with BlockManager class
     public void sortArray()
     {
         int smallest = Integer.MAX_VALUE;
