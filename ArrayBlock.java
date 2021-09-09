@@ -1,4 +1,6 @@
 import processing.core.PApplet;
+
+import java.lang.reflect.Array;
 import java.util.Random;
 
 /**
@@ -11,6 +13,13 @@ public class ArrayBlock extends PApplet
     int heightOfWindow = 600;
     float widthOfRect;
     int sizeOfArray;
+    int currentArrayIndex;
+    float xLocation;
+    float yLocation;
+    float yLocationBuffer;
+    boolean sorted;
+    boolean drawn;
+    
 
     public void settings()
     {
@@ -20,6 +29,13 @@ public class ArrayBlock extends PApplet
 
     public void setup()
     {
+        sorted = false;
+        drawn = false;
+        xLocation = 10;
+        yLocation = 10;
+        yLocationBuffer = 50;
+        currentArrayIndex = 0;
+        frameRate(30);
         widthOfWindow = 900;
         sizeOfArray = 200;
         widthOfRect = (float) widthOfWindow / (sizeOfArray + 5);
@@ -28,10 +44,6 @@ public class ArrayBlock extends PApplet
         createArray();
     }
 
-    public void draw()
-    {
-        drawArray();
-    }
 
     public static void main(String[] args)
     {
@@ -50,16 +62,66 @@ public class ArrayBlock extends PApplet
 
     public void drawArray()
     {
-        float xLocation = 10;
-        float yLocation = 10;
-        float yLocationBuffer = 50;
+        int element = this.anArray[currentArrayIndex];
 
-        for (int anInt : anArray)
+        fill(element);
+        yLocation = this.heightOfWindow - element;
+        rect(xLocation, yLocation - yLocationBuffer, this.widthOfRect, element);
+        xLocation += widthOfRect;
+        currentArrayIndex++;
+
+        if (currentArrayIndex == 200)
         {
-            fill(anInt);
-            yLocation = this.heightOfWindow - anInt;
-            rect(xLocation, yLocation - yLocationBuffer, this.widthOfRect, anInt);
-            xLocation += widthOfRect;
+            drawn = true;
+            currentArrayIndex = 0;
         }
+    }
+
+    public void draw()
+    {
+        /*if (!drawn)
+        {
+            drawArray();
+        } else if */if(!sorted)
+        {
+            sortArray();
+        }
+
+    }
+
+    public void sortArray()
+    {
+        int smallest = Integer.MAX_VALUE;
+        xLocation = widthOfRect * currentArrayIndex + 10;
+
+        for (int i = currentArrayIndex + 1; i < sizeOfArray; i++)
+        {
+            int currentElement = this.anArray[i];
+            int firstElement = this.anArray[currentArrayIndex];
+
+
+            if (firstElement >= currentElement)
+            {
+                this.anArray[currentArrayIndex] = currentElement;
+                this.anArray[i] = firstElement;
+                fill(69, 255, 0);
+                int yPosition = heightOfWindow - this.anArray[currentArrayIndex];
+                rect(xLocation, yPosition, this.widthOfRect, this.anArray[currentArrayIndex]);
+            }
+        }
+        currentArrayIndex++;
+        if (currentArrayIndex == 199)
+        {
+            sorted = true;
+        }
+    }
+}
+
+class Testers
+{
+    public static void main(String[] asdasdasd)
+    {
+        ArrayBlock block = new ArrayBlock();
+
     }
 }
