@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.Random;
 
@@ -19,7 +20,9 @@ public class ArrayBlock extends PApplet
     float yLocationBuffer;
     boolean sorted;
     boolean drawn;
-    
+
+    Block[] blockArray;
+
 
     public void settings()
     {
@@ -29,6 +32,7 @@ public class ArrayBlock extends PApplet
 
     public void setup()
     {
+        blockArray = new Block[200];
         sorted = false;
         drawn = false;
         xLocation = 10;
@@ -38,7 +42,7 @@ public class ArrayBlock extends PApplet
         frameRate(30);
         widthOfWindow = 900;
         sizeOfArray = 200;
-        widthOfRect = (float) widthOfWindow / (sizeOfArray + 5);
+        widthOfRect = (float) widthOfWindow / (sizeOfArray);
         background(126, 239, 247);
         anArray = new int[sizeOfArray];
         createArray();
@@ -53,10 +57,15 @@ public class ArrayBlock extends PApplet
     public void createArray()
     {
         Random aRan = new Random();
+        float anXLocation = 0;
+        float anYLocation = 0;
 
         for (int i = 0; i < 200; i++)
         {
-            anArray[i] = aRan.nextInt(200);
+            float height = aRan.nextInt(200);
+            anYLocation = this.heightOfWindow - height;
+            blockArray[i] = new Block(anXLocation, anYLocation, this.widthOfRect, height, Color.GRAY);
+            anXLocation = anXLocation + this.widthOfRect;
         }
     }
 

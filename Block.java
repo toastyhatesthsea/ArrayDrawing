@@ -9,7 +9,7 @@ public class Block
     float width;
     Color aColor;
 
-    public Block(float xLocation, float yLocation, float height, float width, Color aColor)
+    public Block(float xLocation, float yLocation, float width, float height, Color aColor)
     {
         this.xLocation = xLocation;
         this.yLocation = yLocation;
