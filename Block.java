@@ -1,3 +1,5 @@
+import processing.core.PApplet;
+
 import java.awt.*;
 
 public class Block
@@ -67,5 +69,13 @@ public class Block
     public void setaColor(Color aColor)
     {
         this.aColor = aColor;
+    }
+
+    public void drawBlock(PApplet anApple)
+    {
+        anApple.fill(aColor.getRGB());
+        //fill(aBlock.aColor.getRGB());
+        //rect(aBlock.xLocation, aBlock.yLocation, aBlock.width, aBlock.height);
+        anApple.rect(xLocation, yLocation, width, height);
     }
 }

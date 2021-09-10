@@ -73,6 +73,66 @@ public class BlockManager extends PApplet
         anApple.rect(aBlock.xLocation, aBlock.yLocation, aBlock.width, aBlock.height);
     }
 
+    //TODO Fix Colors after sorting
+    public void sortArrayHelper(PApplet anApple, int counter)
+    {
+        Block forLoopBlock = this.blockArray[counter];
+        Block currentIndexBlock = this.getCurrentBlock();
+
+        if (currentIndexBlock.height >= forLoopBlock.height)
+        {
+            float currentIndexBlockXLocation = currentIndexBlock.xLocation;
+            float forLoopXLocation = forLoopBlock.xLocation;
+
+            this.blockArray[currentIndex] = forLoopBlock;
+            this.blockArray[counter] = currentIndexBlock;
+            if (currentIndex >= counter)
+            {
+                forLoopBlock.setaColor(Color.MAGENTA);
+                currentIndexBlock.setaColor(Color.MAGENTA);
+            }
+            else
+            {
+                forLoopBlock.setaColor(Color.MAGENTA);
+                currentIndexBlock.setaColor(Color.GREEN);
+            }
+
+
+            forLoopBlock.setxLocation(currentIndexBlockXLocation);
+            currentIndexBlock.setxLocation(forLoopXLocation);
+
+            //currentIndexBlock.drawBlock(anApple);
+            //forLoopBlock.drawBlock(anApple);
+        }
+
+
+    }
+
+    public void sortArray(PApplet anApple, int index)
+    {
+
+        for (int i = currentIndex + 1; i < this.blockArray.length; i++)
+        {
+            Block forLoopBlock = this.blockArray[i];
+            Block currentIndexBlock = this.getCurrentBlock();
+
+            if (currentIndexBlock.height >= forLoopBlock.height)
+            {
+                float currentIndexBlockXLocation = currentIndexBlock.xLocation;
+                float forLoopXLocation = forLoopBlock.xLocation;
+
+                this.blockArray[currentIndex] = forLoopBlock;
+                this.blockArray[i] = currentIndexBlock;
+                forLoopBlock.setaColor(Color.MAGENTA);
+
+                forLoopBlock.setxLocation(currentIndexBlockXLocation);
+                currentIndexBlock.setxLocation(forLoopXLocation);
+            }
+        }
+
+        this.getCurrentBlock().setaColor(Color.GREEN);
+    }
+
     public void setBlockArray(Block[] blockArray)
     {
         this.blockArray = blockArray;

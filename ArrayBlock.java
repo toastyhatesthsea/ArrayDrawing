@@ -33,10 +33,10 @@ public class ArrayBlock extends PApplet
         sorted = false;
         drawn = false;
         yLocationBuffer = 50;
-        currentArrayIndex = 0;
-        frameRate(60);
+        currentArrayIndex = 1;
+        frameRate(15);
         widthOfWindow = 900;
-        sizeOfArray = 200;
+        sizeOfArray = 10;
         widthOfRect = (float) widthOfWindow / (sizeOfArray);
         background(126, 239, 247);
 
@@ -62,23 +62,42 @@ public class ArrayBlock extends PApplet
 
     public void draw()
     {
-        if (aBlockManager.currentIndex < sizeOfArray && !this.drawArray())
+        if (!drawn)
         {
             aBlockManager.drawCurrentBlock(this);
-        }
-        else
-        {
-            drawn = true;
-            aBlockManager.reset();
+            aBlockManager.update();
+            if (aBlockManager.currentIndex >= sizeOfArray)
+            {
+                drawn = true;
+                aBlockManager.reset();
+            }
         }
 
         if (drawn && !sorted)
         {
 
+            aBlockManager.sortArrayHelper(this, currentArrayIndex);
+            //aBlockManager.drawCurrentBlock(this);
+
+            currentArrayIndex++;
+
+            if (currentArrayIndex >= aBlockManager.blockArray.length)
+            {
+                aBlockManager.drawCurrentBlock(this);
+                aBlockManager.update();
+                currentArrayIndex = aBlockManager.currentIndex + 1;
+            }
+
+            if (aBlockManager.currentIndex >= sizeOfArray-1)
+            {
+                aBlockManager.drawCurrentBlock(this);
+                sorted = true;
+            }
         }
 
 
-        aBlockManager.update();
+
+        //assert (aBlockManager.currentIndex == 200);
     }
 
 
